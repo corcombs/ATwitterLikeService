@@ -1,0 +1,34 @@
+<?php
+    session_start();
+    $user_id = $_SESSION['user_id'];
+    $user_firstname = $_SESSION['user_firstname'];
+    $user_lastname = $_SESSION['user_lastname'];
+    $loginMsg = $_SESSION['loginMsg'];
+    $loggedIn = $_SESSION['loggedIn'];
+
+?>
+<!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="utf-8">
+            <title></title>
+            
+            <!--  Stylesheets  
+            <link rel="stylesheet" href="css/reset.css" type="text/css" media="screen"/>-->
+            
+            <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+            
+        </head>
+        <body>            
+       <?php
+       $mysql = mysqli_connect("mysql7.000webhost.com", "a1197785_cs450", "cs450group6", "a1197785_cs450");
+			$sql = "INSERT INTO FRIENDS (friends_user, friends_friendID, friends_accepted)
+VALUES ('".trim($_POST['submit'])."','".$user_id."'' ', '0')";
+
+												mysqli_query($mysql, $sql) or die(mysqli_error($mysql));
+
+		?>
+		You added a friend! 
+		<a href="friends.html">Back</a>
+        </body>
+    </html>

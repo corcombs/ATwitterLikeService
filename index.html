@@ -1,0 +1,73 @@
+<?php
+    session_start();
+    $user_id = $_SESSION['user_id'];
+    $user_firstname = $_SESSION['user_firstname'];
+    $user_lastname = $_SESSION['user_lastname'];
+    $loginMsg = $_SESSION['loginMsg'];
+    $loggedIn = $_SESSION['loggedIn'];
+
+?>
+<!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="utf-8">
+            <title></title>
+            
+            <!--  Stylesheets  
+            <link rel="stylesheet" href="css/reset.css" type="text/css" media="screen"/>-->
+            
+            <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+            
+        </head>
+        <body>            
+            <header>
+                <nav>                    
+                    <div>
+                        <div>
+                            <div>
+                                <form action="login.php" method="post">
+                                    <fieldset>
+                                        <label class="" for=""><span>Username: </span><input id="username" name="userName" value="" type="text" autocomplete="on" placeholder="Username"/></label>
+                                        <label class="" for=""><span>Password: </span><input id="password" name="passWord" value="" type="password" placeholder="Password" /></label>
+                                        <input class="" type="submit" value="Login" name="Login"/>
+                                        <input class="" type="submit" value="Logout" name="Logout"/>
+                                        <p id = "accountinfo">
+                                            <?php
+                                                echo $loginMsg;
+												
+													if($loggedIn === 1){													
+														echo "<p>Welcome ".$user_firstname." ".$user_lastname."!";	
+														echo "<p>Your Customer id number is ".$user_id.".</p>";
+														echo "<p>Your session id is ".session_id().".</p>";										
+													}
+											?>
+                                            <a class="" href="forgotPassword.html"><strong>Forgot your password?</strong></a><br />
+                                            <a class="" href="createAccount.html"><strong>Create an Account</strong></a>
+                                        </p>
+                                    </fieldset>
+                                </form>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </nav>                
+            </header>
+            <aside>
+                
+            </aside>
+            <section>
+                <aside>
+                    
+                </aside>
+                <header>
+                    
+                </header>
+                <article>                
+				</article>
+                
+            </section>
+            <footer>
+                
+            </footer>
+        </body>
+    </html>

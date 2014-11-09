@@ -1,0 +1,129 @@
+<?php
+    session_start();
+    $user_id = $_SESSION['user_id'];
+    $user_firstname = $_SESSION['user_firstname'];
+    $user_lastname = $_SESSION['user_lastname'];
+    $loginMsg = $_SESSION['loginMsg'];
+    $loggedIn = $_SESSION['loggedIn'];
+
+?>
+<!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="utf-8">
+            <title></title>
+            
+            <!--  Stylesheets  
+            <link rel="stylesheet" href="css/reset.css" type="text/css" media="screen"/>-->
+            
+            <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+            
+        </head>
+        <body>            
+            <header>
+                <nav>
+					<!-- SHOW LIST OF FRIENDS -->
+					<div>
+						<?php
+							//connect to db
+							$mysql = mysqli_connect("mysql7.000webhost.com", "a1197785_cs450", "cs450group6", "a1197785_cs450");
+							
+							// select all current friends from user
+							$sql = "SELECT friends_friendId FROM FRIENDS WHERE friends_user = ".$user_id;
+							// run query and store in an array
+							$result = mysqli_query($mysql, $sql) or die(mysqli_error($mysql));
+							$idArr[]=$user_id;
+							//create table to show friends
+							echo "<div>
+									
+									<table width=100%>
+										<thead>
+											<tr>
+												<th></th>
+											</tr>
+										</thead>";
+							
+							// we use a while loop to go through each friend stored in $result.
+							while($record = mysqli_fetch_array($result))
+							{	
+								//from the query above we only get the friend's user id, not the first and last name. Let's look for their names in the USERS table based on the ID.								
+								$lookForFriendName = mysqli_query($mysql,"SELECT user_firstname, user_lastname FROM USERS WHERE user_id = '".$record['friends_friendId']."'");
+								$idArr[]=$record['friends_friendId'];
+								//again we need another while loop to fetch the first and last name because the mysqli_query command returns an object
+								while($record2 = mysqli_fetch_array($lookForFriendName))
+								{												
+									$friendFirstName = $record2['user_firstname'];
+									$friendLastName = $record2['user_lastname'];
+								}
+								
+								// now show those names in the table
+								echo "<tr>";
+								echo "<td></br>".$friendFirstName." ".$friendLastName."</br></td>";								
+								echo "</tr>";
+											
+							}		
+							$sql = "SELECT friends_user FROM FRIENDS WHERE friends_friendId = ".$user_id;
+							// run query and store in an array
+							$result = mysqli_query($mysql, $sql) or die(mysqli_error($mysql));
+							//THIS ONE SEARCHES THE FRIENDS ID FOR YOU OWN USER ID INSTEAD OF JUST USERID
+							while($record = mysqli_fetch_array($result))
+							{	
+								//from the query above we only get the friend's user id, not the first and last name. Let's look for their names in the USERS table based on the ID.								
+								$lookForFriendName = mysqli_query($mysql,"SELECT user_firstname, user_lastname FROM USERS WHERE user_id = '".$record['friends_user']."'");
+								$idArr[]=$record['friends_user'];
+								//again we need another while loop to fetch the first and last name because the mysqli_query command returns an object
+								while($record2 = mysqli_fetch_array($lookForFriendName))
+								{												
+									$friendFirstName = $record2['user_firstname'];
+									$friendLastName = $record2['user_lastname'];
+								}
+								
+								// now show those names in the table
+								echo "<tr>";
+								echo "<td></br>".$friendFirstName." ".$friendLastName."</br></td>";								
+								echo "</tr>";
+											
+							}
+							echo "</table>";
+							echo "<div>Add New Friends</div>";
+							$sql = "SELECT user_id FROM USERS ";
+							// run query and store in an array
+							$result = mysqli_query($mysql, $sql) or die(mysqli_error($mysql));
+							echo '<form action="addedFriend.html" method="post"><fieldset>';
+							while($record = mysqli_fetch_array($result)){
+	
+								if(!in_array ( $record['user_id'], $idArr )){
+									$lookForNewFriendName = mysqli_query($mysql,"SELECT user_firstname, user_lastname FROM USERS WHERE user_id = '".$record['user_id']."'");
+									while($record2 = mysqli_fetch_array($lookForNewFriendName))
+									{												
+										$friendFirstName = $record2['user_firstname'];
+										$friendLastName = $record2['user_lastname'];
+									}
+									echo "<tr>";
+									echo '<input type="submit" name ="submit" value="'.$record['user_id'].'" />';
+									echo "<td> ".$friendFirstName." ".$friendLastName."</br></td>";
+									echo "</tr>";
+								}
+							}
+							echo '</fieldset></form>';
+									
+						?>	
+							<br />
+							<a href="account.html">Back</a>
+					</div>
+					<!-- ADD NEW FRIENDS -->
+					<div>					
+					</div>
+				</nav>                
+            </header>
+            <aside>
+                
+            </aside>
+            <section>               
+                
+            </section>
+            <footer>
+                
+            </footer>
+        </body>
+    </html>

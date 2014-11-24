@@ -1,0 +1,85 @@
+<?php
+    session_start();
+    $user_id = $_SESSION['user_id'];
+    $user_firstname = $_SESSION['user_firstname'];
+    $user_lastname = $_SESSION['user_lastname'];
+    $loginMsg = $_SESSION['loginMsg'];
+    $loggedIn = $_SESSION['loggedIn'];
+
+?>
+<!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="utf-8">
+            <title></title>
+            
+            <!--  Stylesheets  
+            <link rel="stylesheet" href="css/reset.css" type="text/css" media="screen"/>-->
+            
+            <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+            
+        </head>
+        <body>            
+            <?php
+                                      $mysql = mysqli_connect("mysql7.000webhost.com", "a1197785_cs450", "cs450group6", "a1197785_cs450");
+                                        $sql = "SELECT * FROM USERS WHERE  user_id =".trim($_POST['submit']);
+                                        $result = mysqli_query($mysql, $sql) or die(mysqli_error($mysql));
+
+                                        while($record = mysqli_fetch_array($result))
+                                        {
+                                            $userID = $record['user_id']; // store the author's id in a variable
+                                            
+                                            //look for author's name in USERS table so it can appear in the tweets
+                                            $lookForNames = mysqli_query($mysql,"SELECT user_firstname, user_lastname FROM USERS WHERE user_id = '".$userID."'");
+                                            while($record2 = mysqli_fetch_array($lookForNames))
+                                            {                                               
+                                                $userFirstName = $record2['user_firstname'];
+                                                $userLastName = $record2['user_lastname'];
+                                            }
+
+                                        }
+                                         echo "<div>
+                                                
+                                                <table width=100%>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>".$userFirstName." ".$userLastName."</th>
+                                                        </tr>
+                                                    </thead>";
+
+                                        // 2.2. SHOW POSTS starting from the most recent one
+                                        
+                                        // 2.2.1. run query to look for all tweets in the POSTS table
+                                        $sql = "SELECT * FROM POSTS WHERE  posts_author =".trim($_POST['submit'])." ORDER BY posts_date DESC";
+                                        $result = mysqli_query($mysql, $sql) or die(mysqli_error($mysql));
+                                        
+                                        // 2.2.2. print all posts from user in a table
+
+
+
+
+
+                                       
+                                        
+                                        // $result is an array of objects, so we need a while loop to access the information of each individual object
+                                        while($record = mysqli_fetch_array($result))
+                                        {
+                                            //all we get from the POSTS table is the author's id, not their first and last name.
+                                            // so before we show the tweet itself, let's first look for the author's name in the USERS table
+                                            
+                                            
+                                            
+                                            // now that we have the name of the author, we can show it along with the tweet
+                                            echo "<tr>";
+                                            echo "<td></br>" . $record['posts_date'] . "</br>" . $record['posts_content'] . "</td>";
+                                            //echo "<td>" . $record['posts_content'] . "</td>";
+                                            echo "</tr>";
+                                            
+                                        }       
+                                        echo "</table>";
+                                        
+                                    echo "</div>";
+                                ?>
+                            <a href="friends.html">Back</a>
+        </body>
+    </html>

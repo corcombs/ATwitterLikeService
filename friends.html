@@ -34,14 +34,14 @@
 							$result = mysqli_query($mysql, $sql) or die(mysqli_error($mysql));
 							$idArr[]=$user_id;
 							//create table to show friends
-							echo "<div>
+							echo '<div>
 									
 									<table width=100%>
 										<thead>
 											<tr>
 												<th></th>
 											</tr>
-										</thead>";
+										</thead> <form action="profile.html" method="post"><fieldset>';
 							
 							// we use a while loop to go through each friend stored in $result.
 							while($record = mysqli_fetch_array($result))
@@ -51,14 +51,16 @@
 								$idArr[]=$record['friends_friendId'];
 								//again we need another while loop to fetch the first and last name because the mysqli_query command returns an object
 								while($record2 = mysqli_fetch_array($lookForFriendName))
-								{												
+								{									
+									$friendUserId = $record['friends_friendId'];
 									$friendFirstName = $record2['user_firstname'];
 									$friendLastName = $record2['user_lastname'];
 								}
 								
 								// now show those names in the table
-								echo "<tr>";
-								echo "<td></br>".$friendFirstName." ".$friendLastName."</br></td>";								
+								echo "<tr><td>";
+								echo '</br><input type="submit" name ="submit" value="'.$friendUserId.'" />';
+								echo " ".$friendFirstName." ".$friendLastName."</br></td>";								
 								echo "</tr>";
 											
 							}		
@@ -73,18 +75,20 @@
 								$idArr[]=$record['friends_user'];
 								//again we need another while loop to fetch the first and last name because the mysqli_query command returns an object
 								while($record2 = mysqli_fetch_array($lookForFriendName))
-								{												
+								{										
+									$friendUserId = $record['friends_user'];
 									$friendFirstName = $record2['user_firstname'];
 									$friendLastName = $record2['user_lastname'];
 								}
 								
 								// now show those names in the table
-								echo "<tr>";
-								echo "<td></br>".$friendFirstName." ".$friendLastName."</br></td>";								
+								echo "<tr><td>";
+								echo '</br><input type="submit" name ="submit" value="'.$friendUserId.'" />';
+								echo " ".$friendFirstName." ".$friendLastName."</br></td>";								
 								echo "</tr>";
 											
 							}
-							echo "</table>";
+							echo "</form></fieldset></table>";
 							echo "<div>Add New Friends</div>";
 							$sql = "SELECT user_id FROM USERS ";
 							// run query and store in an array

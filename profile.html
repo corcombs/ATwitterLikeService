@@ -30,11 +30,13 @@
                                             $userID = $record['user_id']; // store the author's id in a variable
                                             
                                             //look for author's name in USERS table so it can appear in the tweets
-                                            $lookForNames = mysqli_query($mysql,"SELECT user_firstname, user_lastname FROM USERS WHERE user_id = '".$userID."'");
+                                            $lookForNames = mysqli_query($mysql,"SELECT user_firstname, user_lastname, user_city, user_state FROM USERS WHERE user_id = '".$userID."'");
                                             while($record2 = mysqli_fetch_array($lookForNames))
                                             {                                               
                                                 $userFirstName = $record2['user_firstname'];
                                                 $userLastName = $record2['user_lastname'];
+                                                $city = $record2['user_city'];
+                                                $state = $record2['user_state'];
                                             }
 
                                         }
@@ -43,7 +45,8 @@
                                                 <table width=100%>
                                                     <thead>
                                                         <tr>
-                                                            <th>".$userFirstName." ".$userLastName."</th>
+                                                            <p>".$userFirstName." ".$userLastName."</p></br>
+                                                            <p>".$city.", ".$state."</p>
                                                         </tr>
                                                     </thead>";
 

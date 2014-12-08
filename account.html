@@ -14,52 +14,83 @@
             
             <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
             <style>
+			body{
+				background-color: #3399FF;
+			}
 			th {
 				text-align: left;
 			}
+			
+			p {
+				margin: 5px 0px 5px 0px;;
+			}
+			
+			div {
+				margin: 20px 0px 20px 0px;
+			}
+			
+			div#menu a{
+				float: left;
+				margin-right: 5px;
+				font-family: "Comic Sans MS", cursive, sans-serif;
+			}
+			
+			div#mainContent{
+				background-color: white;
+				width: 70%;
+				height: 100%;
+				position: relative;
+				margin: auto;
+				padding: 15px 15px 15px 15px;
+			}
+			
 			</style>
         </head>
         <body>            
-            <header>
-                <nav>   
+            <div id="mainContent">
+				<div id="tweets">
 					<form>
 						<!-- SHOW ACCOUNT INFORMATION -->
+						<div id="menu">
+							<a href="account.html">Home</a>
+							<a href="friends.html">Friends</a>							
+							<a href="logout.php">Logout</a>
+						</div>
 						<div>
-							<fieldset>                                        
+																   
 								<p id = "accountinfo">
 									<?php
 										echo $loginMsg;
 										
 											if($loggedIn === 1){													
-												echo "<p>Welcome ".$user_firstname." ".$user_lastname."!";	
-												echo "<p>Your User id number is ".$user_id.".</p>";
-												echo "<p>Your session id is ".session_id().".</p>";										
+												echo "<p>Welcome ".$user_firstname." ".$user_lastname."!";									
 											}
 									?>
-							</fieldset>
+								</p>
 						</div>
-						<fieldset>
+						<div>
 									<!-- SHOW ACCOUNT INFORMATION -->
 									<?php
 										// connect to database
 										$mysql = mysqli_connect("mysql7.000webhost.com", "a1197785_cs450", "cs450group6", "a1197785_cs450");										
-									?>
 									
-									<h3>So what's going on?</h3>
-										<form action="#" method="post">
-											<input type="submit" name ="submit" value="Tweet" />
-											<input type="text" name="addpost" /><br />														
+									
+									echo "<h3>So what's going on ".$user_firstname."?</h3>"
+									?>
+										<form action="account.html" method="get">
+											<input type="text" name="addpost" /><br />	
+											<input type="submit" name ="submit" value="Tweet" />																								
 										</form>										
 									
 									<!-- ADD NEW TWEETS -->									
 									<?php
 										// 2.1. ADDiNG NEW TWEETS
 										
-										if(isset($_GET['submit'])) //when the user clicks on 'Tweet' button ...
+										if(isset($_GET["addpost"])) //when the user clicks on 'Tweet' button ...
 										{											
 											// 2.1.2. store the tweet content in a variable for later use
 											// we will use $post_content to store the tweet in the database.		
-											$post_content = trim($_GET['addpost']);	
+											$post_content = trim($_GET["addpost"]);	
 											$today = date("y-m-d"); // we will also need the date the tweet was posted
 											
 											// before running the query, make sure the field is not empty
@@ -110,8 +141,7 @@
 											
 											// now that we have the name of the author, we can show it along with the tweet
 											echo "<tr>";
-											echo "<td></br><a href=''>".$authorFirstName." ".$authorLastName."</a> " . $record['posts_date'] . "</br>" . $record['posts_content'] . "</td>";
-											//echo "<td>" . $record['posts_content'] . "</td>";
+											echo "<td></br><a href=''>".$authorFirstName." ".$authorLastName."</a> " . $record['posts_date'] . "</br>" . $record['posts_content'] . "<a href='delete.php?id=".$record['posts_id']."'><img src = dialog-close.png title= Delete width=7 height=7></a></td>";
 											echo "</tr>";
 											
 										}		
@@ -120,22 +150,10 @@
 									echo "</div>";
 								?>                                           
 							</p>
-						</fieldset>	
-
-						<fieldset>
-							<a href="friends.html">Friends</a>
-						</fieldset>
-					</form>
-                </nav>                
-            </header>
+						</div>
+					</form> 
+				</div><!-- end tweets div -->
+            </div> <!-- end mainContent div -->
 			
-            <aside>                
-            </aside>
-			
-            <section>            
-            </section>
-			
-            <footer>                
-            </footer>
         </body>
     </html>

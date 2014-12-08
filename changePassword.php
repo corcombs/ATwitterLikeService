@@ -2,6 +2,7 @@
 
 
 		session_start();
+		$userName = $_SESSION['userName'];
 		
 		$mysqli = mysqli_connect("mysql7.000webhost.com", "a1197785_cs450", "cs450group6", "a1197785_cs450");
 
@@ -19,11 +20,12 @@
         $record = mysqli_fetch_array($result);
         if($securityA1==$record['user_securityA1'] && $securityA2==$record['user_securityA2'] && $securityA3==$record['user_securityA3'] ){
             //  username exists
-            $sql="UPDATE USERS set user_pwd = '" . $newPassWord . "' WHERE user_username = '" . $userName . "';";
+			$sql="UPDATE USERS set user_pwd = '" . $newPassWord . "' WHERE user_username = '" . $userName. "';";
             mysqli_query($mysqli, $sql) or die(mysqli_error($mysqli));
-            
+            echo $newPassWord;
             $_SESSION['loginMsg'] = "<br/><p style=\" color: red;\">Your password was changed!</p><br/>";
-            header("Location: index.html");
+            
+			header("Location: index.html");
             exit();
         }
         else{

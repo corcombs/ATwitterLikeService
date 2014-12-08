@@ -17,18 +17,48 @@
             <link rel="stylesheet" href="css/reset.css" type="text/css" media="screen"/>-->
             
             <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-            
+            <style>
+			body{
+				background-color: #3399FF;
+			}
+			th {
+				text-align: left;
+			}
+			
+			p {
+				margin: 5px 0px 5px 0px;;
+			}
+			
+			div {
+				margin: 20px 0px 20px 0px;
+			}
+			
+			div#menu a{
+				float: left;
+				margin-right: 5px;
+				font-family: "Comic Sans MS", cursive, sans-serif;
+			}
+			
+			div#mainContent{
+				background-color: white;
+				width: 70%;
+				height: 100%;
+				position: relative;
+				margin: auto;
+				padding: 15px 15px 15px 15px;
+			}
+			
+			</style>
         </head>
         <body>            
-            <header>
-                <nav>
+            <div id="mainContent">
 					<!-- SHOW LIST OF FRIENDS -->
-					<div>
+					<h1>Friends</h1>
 						<?php
 							//connect to db
 							$mysql = mysqli_connect("mysql7.000webhost.com", "a1197785_cs450", "cs450group6", "a1197785_cs450");
 							
-							// select all current friends from user
+							// select all current friends from current user
 							$sql = "SELECT friends_friendId FROM FRIENDS WHERE friends_user = ".$user_id;
 							// run query and store in an array
 							$result = mysqli_query($mysql, $sql) or die(mysqli_error($mysql));
@@ -41,7 +71,7 @@
 											<tr>
 												<th></th>
 											</tr>
-										</thead> <form action="profile.html" method="post"><fieldset>';
+										</thead> <form action="profile.html" method="post">';
 							
 							// we use a while loop to go through each friend stored in $result.
 							while($record = mysqli_fetch_array($result))
@@ -55,15 +85,18 @@
 									$friendUserId = $record['friends_friendId'];
 									$friendFirstName = $record2['user_firstname'];
 									$friendLastName = $record2['user_lastname'];
+									
+									
 								}
-								
 								// now show those names in the table
 								echo "<tr><td>";
 								echo '</br><input type="submit" name ="submit" value="'.$friendUserId.'" />';
 								echo " ".$friendFirstName." ".$friendLastName."</br></td>";								
-								echo "</tr>";
+								echo "</tr>";							
 											
-							}		
+							}	
+
+							/*
 							$sql = "SELECT friends_user FROM FRIENDS WHERE friends_friendId = ".$user_id;
 							// run query and store in an array
 							$result = mysqli_query($mysql, $sql) or die(mysqli_error($mysql));
@@ -88,12 +121,16 @@
 								echo "</tr>";
 											
 							}
-							echo "</form></fieldset></table>";
+							*/
+							
+							echo "</form>
+							</table>";
+							
 							echo "<div>Add New Friends</div>";
 							$sql = "SELECT user_id FROM USERS ";
 							// run query and store in an array
 							$result = mysqli_query($mysql, $sql) or die(mysqli_error($mysql));
-							echo '<form action="addedFriend.html" method="post"><fieldset>';
+							echo '<form action="addedFriend.html" method="post">';
 							while($record = mysqli_fetch_array($result)){
 	
 								if(!in_array ( $record['user_id'], $idArr )){
@@ -109,25 +146,13 @@
 									echo "</tr>";
 								}
 							}
-							echo '</fieldset></form>';
+							echo '</form>';
 									
 						?>	
 							<br />
 							<a href="account.html">Back</a>
-					</div>
+					
 					<!-- ADD NEW FRIENDS -->
-					<div>					
-					</div>
-				</nav>                
-            </header>
-            <aside>
-                
-            </aside>
-            <section>               
-                
-            </section>
-            <footer>
-                
-            </footer>
+            </div>
         </body>
     </html>

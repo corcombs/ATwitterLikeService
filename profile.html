@@ -17,9 +17,40 @@
             <link rel="stylesheet" href="css/reset.css" type="text/css" media="screen"/>-->
             
             <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-            
+            <style>
+			body{
+				background-color: #3399FF;
+			}
+			th {
+				text-align: left;
+			}
+			
+			p {
+				margin: 5px 0px 5px 0px;;
+			}
+			
+			div {
+				margin: 20px 0px 20px 0px;
+			}
+			
+			div#menu a{
+				float: left;
+				margin-right: 5px;
+				font-family: "Comic Sans MS", cursive, sans-serif;
+			}
+			
+			div#mainContent{
+				background-color: white;
+				width: 70%;
+				height: 100%;
+				position: relative;
+				margin: auto;
+				padding: 15px 15px 15px 15px;
+			}
+			</style>
         </head>
-        <body>            
+        <body>  
+			<div id="mainContent">
             <?php
                                       $mysql = mysqli_connect("mysql7.000webhost.com", "a1197785_cs450", "cs450group6", "a1197785_cs450");
                                         $sql = "SELECT * FROM USERS WHERE  user_id =".trim($_POST['submit']);
@@ -58,11 +89,6 @@
                                         
                                         // 2.2.2. print all posts from user in a table
 
-
-
-
-
-                                       
                                         
                                         // $result is an array of objects, so we need a while loop to access the information of each individual object
                                         while($record = mysqli_fetch_array($result))
@@ -84,5 +110,6 @@
                                     echo "</div>";
                                 ?>
                             <a href="friends.html">Back</a>
-        </body>
+			</div>
+		</body>
     </html>

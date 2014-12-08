@@ -22,10 +22,11 @@
         <body>            
        <?php
        $mysql = mysqli_connect("mysql7.000webhost.com", "a1197785_cs450", "cs450group6", "a1197785_cs450");
-			$sql = "INSERT INTO FRIENDS (friends_user, friends_friendID, friends_accepted)
-VALUES ('".trim($_POST['submit'])."','".$user_id."'' ', '0')";
+	
+		$sql = "INSERT INTO FRIENDS (friends_user, friends_friendID, friends_accepted)
+		VALUES ('".$user_id."', '".trim($_POST['submit'])."','0')";
 
-												mysqli_query($mysql, $sql) or die(mysqli_error($mysql));
+		mysqli_query($mysql, $sql) or die(mysqli_error($mysql));
 
 		?>
 		You added a friend! 

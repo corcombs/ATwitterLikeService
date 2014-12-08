@@ -4,10 +4,9 @@
 		session_start();
 		
 		$mysqli = mysqli_connect("mysql7.000webhost.com", "a1197785_cs450", "cs450group6", "a1197785_cs450");
-
         //  Store the information for the login into the variables
         $userName = trim($_POST['userName']);
-        
+        $_SESSION['userName'] = $userName;
         //  Connect to the database and check if the username exists
         //  Pull the password, id, fname, and lname at same time
         $sql = "SELECT user_securityQ1, user_securityQ2, user_securityQ3 FROM USERS WHERE
@@ -27,7 +26,7 @@
         else{
             //  Username does not exist
             $_SESSION['loginMsg'] = "<br/><p style=\" color: red;\">The username you entered does not exist!</p><br/>";			
-            header("Location: index.html");
+            header("Location: forgotPassword.html");
             exit();
         }
         
